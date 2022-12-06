@@ -1,0 +1,7 @@
+form_module.example_crud_data:
+  path: '/example-crud/data'
+  defaults:
+    _controller: '\Drupal\apirest_estvi\Controller\CrudController::getData'
+  method: [POST]
+  requirements:
+    _permission: 'access content'  
