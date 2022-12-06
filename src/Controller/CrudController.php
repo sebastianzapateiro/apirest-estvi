@@ -1,19 +1,17 @@
 <?php
 
-namespace  Drupal\apirest_estvi\Controller;
+namespace Drupal\apirest_estvi\Controller;
+
 use Drupal\Core\Controller\ControllerBase;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Drupal\Core\Database\Connection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
+class CrudController extends ControllerBase
+{
 
-
-
-class CrudController extends ControllerBase {
-
-
- /**
+    /**
      * @var Connection
      */
     private $cn;
@@ -30,62 +28,85 @@ class CrudController extends ControllerBase {
         );
     }
 
-    public function getData(Request $request){
-        try{
+    public function getData(Request $request)
+    {
+        try {
 
-        
-        $contenido = $request->getContent();
-        $params = json_decode($contenido, TRUE);  
-        
+            $contenido = $request->getContent();
+            $params = json_decode($contenido, true);
 
-        $query = $this->cn->select('example_users', 'users');
-        $query->fields('users', ['id', 'nombre', 'identificacion', 'fecha_nacimiento', 'cargo_usuario', 'Estado']);
-        $valores = $query->execute();
-        $resultados = $valores->fetchAll();
+            $query = $this->cn->select('example_users', 'users');
+            $query->fields('users', ['id', 'nombre', 'identificacion', 'fecha_nacimiento', 'cargo_usuario', 'Estado']);
+            $valores = $query->execute();
+            $resultados = $valores->fetchAll();
 
-        $respuesta_api = array(
-            "status" => "OK",
-            "message" => "Usuarios registrados",
-            "result" => $resultados
-        );
-        return new JsonResponse($respuesta_api);
+            $respuesta_api = array(
+                "status" => "OK",
+                "message" => "Usuarios registrados",
+                "result" => $resultados,
+            );
+            return new JsonResponse($respuesta_api);
 
-    } catch(Exception $ex){
-        dpm($ex->getMessage());
-    }
-
+        } catch (Exception $ex) {
+            dpm($ex->getMessage());
+        }
 
     }
 
+/*
+public function addData(Request $request){
 
+try{
 
-    public function addData(Request $request){
+$contenido = $request->getContent();
+$params = json_decode($contenido, TRUE);
 
-        try{
+$query = $this->cn->select('example_users', 'users');
+$query->fields('users', ['id', 'nombre', 'identificacion', 'fecha_nacimiento', 'cargo_usuario', 'Estado']);
+$valores = $query->execute();
+$resultados = $valores->fetchAll();
 
-        
-        $contenido = $request->getContent();
-        $params = json_decode($contenido, TRUE);  
-        
+$respuesta_api = array(
+"status" => "OK",
+"message" => "Usuarios registrados",
+"result" => $resultados
+);
+return new JsonResponse($respuesta_api);
 
-        $query = $this->cn->select('example_users', 'users');
-        $query->fields('users', ['id', 'nombre', 'identificacion', 'fecha_nacimiento', 'cargo_usuario', 'Estado']);
-        $valores = $query->execute();
-        $resultados = $valores->fetchAll();
+} catch(Exception $ex){
+dpm($ex->getMessage());
+}
+ */
 
-        $respuesta_api = array(
-            "status" => "OK",
-            "message" => "Usuarios registrados",
-            "result" => $resultados
-        );
-        return new JsonResponse($respuesta_api);
+    public function deleteData(Request $request)
+    {
+        global $base_url;
 
-    } catch(Exception $ex){
-        dpm($ex->getMessage());
+        try {
+
+            $contenido = $request->getContent();
+            $params = json_decode($contenido, true);
+            $key = $params['uid'];
+            $valor = 12;
+
+            if (!empty($key)) {
+                $query = $this->cn->delete('example_users');
+                $query->condition('id', $key);
+                $query->execute();
+
+                $respuesta_api = array(
+                    "status" => "OK",
+                    "message" => "Usuarios registrados",
+
+                );
+            }
+
+            return new JsonResponse($respuesta_api);
+
+        } catch (Exception $ex) {
+            dpm($ex->getMessage());
+        }
+
     }
-
-
-    }
-
 
 }
