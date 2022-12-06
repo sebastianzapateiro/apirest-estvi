@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 
-class CrudControllet extends ControllerBase {
+class CrudController extends ControllerBase {
 
 
  /**
@@ -31,13 +31,11 @@ class CrudControllet extends ControllerBase {
     }
 
     public function getData(Request $request){
-        global $base_url;
-
         try{
 
         
         $contenido = $request->getContent();
-        $params = json_decode($content, TRUE);  
+        $params = json_decode($contenido, TRUE);  
         
 
         $query = $this->cn->select('example_users', 'users');
@@ -50,7 +48,7 @@ class CrudControllet extends ControllerBase {
             "message" => "Usuarios registrados",
             "result" => $resultados
         );
-        return new JsonRresponse($respuesta_api);
+        return new JsonResponse($respuesta_api);
 
     } catch(Exception $ex){
         dpm($ex->getMessage());
@@ -58,5 +56,36 @@ class CrudControllet extends ControllerBase {
 
 
     }
+
+
+
+    public function addData(Request $request){
+
+        try{
+
+        
+        $contenido = $request->getContent();
+        $params = json_decode($contenido, TRUE);  
+        
+
+        $query = $this->cn->select('example_users', 'users');
+        $query->fields('users', ['id', 'nombre', 'identificacion', 'fecha_nacimiento', 'cargo_usuario', 'Estado']);
+        $valores = $query->execute();
+        $resultados = $valores->fetchAll();
+
+        $respuesta_api = array(
+            "status" => "OK",
+            "message" => "Usuarios registrados",
+            "result" => $resultados
+        );
+        return new JsonResponse($respuesta_api);
+
+    } catch(Exception $ex){
+        dpm($ex->getMessage());
+    }
+
+
+    }
+
 
 }
