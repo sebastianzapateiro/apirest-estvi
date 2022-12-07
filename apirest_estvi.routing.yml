@@ -5,11 +5,3 @@ apirest_estvi.example_crud_data:
   method: [GET]
   requirements:
     _permission: 'access content'  
-
-      #apirest_estvi.example_crud_data_delete:
-      #path: '/example-crud/datad'
-      #defaults:
-      #_controller: '\Drupal\apirest_estvi\Controller\CrudController::deleteData'
-      #method: [POST]
-      #requirements:
-      #_permission: 'access content'  
