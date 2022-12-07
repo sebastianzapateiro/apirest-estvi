@@ -47,5 +47,5 @@ A través del controlador CrudController se hace el llamado a la función getDat
 
     }
 ```
-Para validar el funcionamiento del modulo puede entrar a la dirección https://estrenar-vivienda.sebastianzapateiro.tech/example-crud/data
+Para validar el funcionamiento del modulo puede entrar a la dirección http://estrenar-vivienda.sebastianzapateiro.tech/example-crud/data
 
